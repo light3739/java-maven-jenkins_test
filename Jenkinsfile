@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     echo "building jar"
-                    env.versions = input message:"Select version", ok:"Done", parameters: [ choice(name:'VERSIONS', choices: ['1','2','prod']), description:'')]
+                    env.versions = input message:"Select version", ok:"Done", parameters: [ choice(name:'VERSIONS', choices: ['1','2','prod'], description:'')]
                     }
                 }
             }
