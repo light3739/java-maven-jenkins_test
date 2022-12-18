@@ -10,29 +10,19 @@ pipeline {
                 }
             }
         }
-        stage("build jar") {
-            steps {
-                script {
-                    echo "building jar"
-                    env.versions = input message:"Select version", ok:"Done", parameters: [ choice(name:'VERSIONS', choices: ['1','2','prod'], description:'')]
+        stage("AWS Demo") {
+                    steps {
+                   withCredentials([[
+                       $class: 'AmazonWebServicesCredentialsBinding',
+                       credentialsId: "jenkins2",
+                       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                   ]]) {
+                       sh 'aws s3 ls'
+                   }
                     }
                 }
-            }
-        stage("build image") {
-            steps {
-                script {
-                    echo "$versions"
-                    //gv.buildImage()
-                }
-            }
-        }
-        stage("deploy") {
-            steps {
-                script {
-                    echo "deploying"
-                    //gv.deployApp()
-                }
-            }
-        }
+
+
     }
 }
