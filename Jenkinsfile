@@ -14,14 +14,15 @@ pipeline {
             steps {
                 script {
                     echo "building jar"
-                    //gv.buildJar()
+                    env.versions = input message:"Select version", ok:"Done",parameters: [choice(name:"VERSIONS",choices:['1','2','prod']),description:'']
+                    }
                 }
             }
         }
         stage("build image") {
             steps {
                 script {
-                    echo "building image"
+                    echo "$versions"
                     //gv.buildImage()
                 }
             }
