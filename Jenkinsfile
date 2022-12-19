@@ -1,6 +1,9 @@
 def gv
 
 pipeline {
+    tools{
+        maven 'Maven'
+    }
     agent any
     stages {
         stage("init") {
@@ -10,18 +13,20 @@ pipeline {
                 }
             }
         }
-        stage("AWS Demo") {
-                    steps {
-                   withCredentials([[
-                       $class: 'AmazonWebServicesCredentialsBinding',
-                       credentialsId: "aws-credentials",
-                       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                   ]]) {
-                       sh 'aws s3 ls'
-                   }
-                    }
+        stage("build jar") {
+             steps {
+                script{
+                    sh 'mvn package'
                 }
+             }
+        }
+        stage("build image") {
+             steps {
+                script{
+                    echo 'hello'
+                }
+             }
+        }
 
 
     }
